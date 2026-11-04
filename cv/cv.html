@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>CV Claude Boulay</title>
+    <style>
+      @font-face {
+        font-family: 'Archivo';
+        src: url('../node_modules/@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2') format('woff2-variations');
+        font-weight: 100 900;
+        font-stretch: 62% 125%;
+      }
+      @font-face {
+        font-family: 'Plex Mono';
+        src: url('../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2') format('woff2');
+      }
+      @page {
+        size: A4;
+        margin: 0;
+      }
+      :root {
+        --ink: #0b162c;
+        --muted: #3b556d;
+        --navy: #1c2942;
+        --tint: rgb(95 194 186 / 0.2);
+        --pop: #5fc2ba;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+      body {
+        width: 210mm;
+        height: 297mm;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 72mm 1fr;
+        color: var(--ink);
+        font: 400 10pt/1.4 'Archivo', sans-serif;
+      }
+      ul {
+        list-style: none;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1mm;
+        font: 400 7.6pt/1 'Plex Mono', monospace;
+      }
+      .tags li {
+        padding: 0.8mm 1.4mm;
+        border-radius: 0.6mm;
+        background: var(--tint);
+        color: var(--navy);
+      }
+
+      /* Colonne bleue */
+
+      .side {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 10mm;
+        padding: 14mm 8mm 10mm;
+        background: var(--ink);
+        color: #fff;
+      }
+      .side > svg path {
+        fill: none;
+        stroke: rgb(95 194 186 / 0.5);
+        stroke-width: 1;
+      }
+      .side > * {
+        position: relative;
+      }
+      .side > svg {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      h1 {
+        font-size: 30pt;
+        font-weight: 800;
+        font-stretch: 125%;
+        line-height: 0.95;
+        letter-spacing: -0.025em;
+        text-transform: uppercase;
+      }
+      .role {
+        display: inline-block;
+        margin-top: 3mm;
+        padding: 0.7mm 2mm;
+        background: var(--pop);
+        color: var(--ink);
+        font-size: 10.5pt;
+        font-weight: 700;
+      }
+      .contact {
+        font: 400 8.2pt/1.8 'Plex Mono', monospace;
+      }
+      .side h2 {
+        margin-bottom: 2.6mm;
+        color: var(--pop);
+        font-size: 12pt;
+      }
+      .side h3 {
+        font-size: 10pt;
+      }
+      .side p + h3 {
+        margin-top: 2.8mm;
+      }
+      .side .meta {
+        font-size: 9.4pt;
+      }
+      .side .group {
+        margin: 2.6mm 0 1.2mm;
+        font: 400 8pt/1.2 'Plex Mono', monospace;
+      }
+      .side .tags li {
+        background: var(--navy);
+        color: #fff;
+      }
+
+      /* Colonne principale */
+
+      .main {
+        display: flex;
+        flex-direction: column;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 5mm;
+        padding: 14mm 10mm 9mm;
+        background: var(--pop);
+      }
+      .stats strong {
+        display: block;
+        font-size: 23pt;
+        font-weight: 800;
+        font-stretch: 125%;
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+      .stats span {
+        display: block;
+        margin-top: 1.2mm;
+        font-size: 8.8pt;
+        line-height: 1.2;
+      }
+      .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8mm;
+        justify-content: space-between;
+        padding: 9mm 10mm 11mm;
+      }
+      h2 {
+        font-size: 15pt;
+        font-weight: 800;
+        font-stretch: 125%;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+      }
+      h3 {
+        font-size: 10.5pt;
+        font-weight: 700;
+        line-height: 1.25;
+      }
+      .where {
+        margin-top: 0.6mm;
+        color: var(--muted);
+        font-size: 9.4pt;
+      }
+      .jobs {
+        display: flex;
+        flex-direction: column;
+        gap: 5.5mm;
+        margin-top: 3.6mm;
+      }
+      .job {
+        padding-left: 3.4mm;
+        border-left: 1.2mm solid var(--pop);
+      }
+      .job .tags {
+        margin-top: 1.2mm;
+      }
+      .note {
+        margin-top: 5mm;
+        color: var(--muted);
+        font-size: 9.2pt;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3mm;
+        margin-top: 3.6mm;
+      }
+      .card {
+        display: flex;
+        flex-direction: column;
+        gap: 1mm;
+        padding: 3.2mm;
+        background: rgb(95 194 186 / 0.1);
+        border-top: 1mm solid var(--pop);
+      }
+      .card .year {
+        color: var(--muted);
+        font: 400 7.6pt/1.3 'Plex Mono', monospace;
+      }
+      .card p:not(.year) {
+        font-size: 9.2pt;
+        line-height: 1.32;
+      }
+      .card .tags {
+        margin-top: auto;
+        padding-top: 1mm;
+      }
+      .card .tags li {
+        background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="side">
+      <svg viewBox="0 0 272 120" aria-hidden="true">
+        <path d="M272 20H190q-12 0-12 12v36q0 12-12 12H0" />
+        <path d="M272 52H230q-12 0-12 12v4q0 12-12 12H0" />
+      </svg>
+
+      <div>
+        <h1>Claude<br />Boulay</h1>
+        <p class="role">Dev full-stack</p>
+      </div>
+
+      <div class="contact">
+        <!-- tel -->
+        <p><a href="mailto:claudeboulay41@gmail.com">claudeboulay41@gmail.com</a></p>
+        <p><a href="https://github.com/claude-boulay">github.com/claude-boulay</a></p>
+        <p><a href="https://www.linkedin.com/in/claude-boulay-832747306/">LinkedIn : Claude Boulay</a></p>
+        <p><a href="https://claude-boulay.github.io">claude-boulay.github.io</a></p>
+      </div>
+
+      <section>
+        <h2>Formation</h2>
+        <h3>Master, SUPINFO Tours</h3>
+        <p class="meta">Dev et mobile, dernière année</p>
+        <h3>BTS SIO option SLAM</h3>
+        <p class="meta">2022 – 2024</p>
+        <h3>Bac S, mention Bien</h3>
+        <p class="meta">2020</p>
+      </section>
+
+      <section>
+        <h2>Compétences</h2>
+        <p class="group">Web</p>
+        <ul class="tags">
+          <li>TypeScript</li><li>React</li><li>Node.js</li><li>PHP</li><li>CodeIgniter</li><li>PrestaShop</li><li>GraphQL</li>
+        </ul>
+        <p class="group">Données</p>
+        <ul class="tags">
+          <li>Python</li><li>Scraping</li><li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li>
+        </ul>
+        <p class="group">Infra</p>
+        <ul class="tags">
+          <li>Docker</li><li>Kubernetes</li><li>Terraform</li><li>Ansible</li><li>AWS</li><li>GitHub Actions</li>
+        </ul>
+        <p class="group">Mobile</p>
+        <ul class="tags">
+          <li>Kotlin</li><li>Jetpack Compose</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>En plus</h2>
+        <p class="meta">Partout en France après le master</p>
+        <p class="meta">Bon niveau d’anglais</p>
+        <p class="meta">Autodidacte, volontaire, autonome</p>
+      </section>
+    </aside>
+
+    <div class="main">
+      <div class="stats">
+        <p><strong>2 ans +</strong><span>d’alternance chez Tubconcept</span></p>
+        <p><strong>4</strong><span>marketplaces reliées à l’ERP</span></p>
+        <p><strong>M2</strong><span>dernière année à SUPINFO</span></p>
+      </div>
+
+      <main class="content">
+        <section>
+          <h2>Expérience</h2>
+          <p class="where">Alternance chez Tubconcept, depuis plus de 2 ans</p>
+          <div class="jobs">
+            <div class="job">
+              <h3>ERP marketplaces</h3>
+              <p>Commandes Amazon, ManoMano, Castorama et Leroy Merlin gérées au même endroit.</p>
+              <ul class="tags"><li>CodeIgniter</li><li>PHP</li><li>jQuery</li><li>DataTables</li></ul>
+            </div>
+            <div class="job">
+              <h3>Scrapers fournisseurs</h3>
+              <p>Produits, stocks, prix et suivi de nos commandes, à jour au plus vite.</p>
+              <ul class="tags"><li>Python</li></ul>
+            </div>
+            <div class="job">
+              <h3>Module PrestaShop de tampons personnalisés</h3>
+              <p>Le client compose son tampon sur la page produit, un PDF prêt à imprimer suit la commande.</p>
+              <ul class="tags"><li>PrestaShop</li><li>PHP</li></ul>
+            </div>
+          </div>
+          <p class="note">Avant ça : deux stages de 5 semaines en dév web, chez Tubconcept et à l’Atelier numérique.</p>
+        </section>
+
+        <section>
+          <h2>Projets</h2>
+          <div class="cards">
+            <article class="card">
+              <p class="year">2026 · solo</p>
+              <h3>Yu-Gi-Oh! D&amp;D</h3>
+              <p>JDR en ligne, duels sur le vrai moteur C++ ocgcore.</p>
+              <ul class="tags"><li>React</li><li>Node</li><li>Socket.io</li><li>Docker</li></ul>
+            </article>
+            <article class="card">
+              <p class="year">2026 · en binôme</p>
+              <h3>Taylor Shift’s Ticket Shop</h3>
+              <p>Infra complète d’une billetterie, entièrement en code.</p>
+              <ul class="tags"><li>Terraform</li><li>Ansible</li><li>AWS</li></ul>
+            </article>
+            <article class="card">
+              <p class="year">2026 · en binôme</p>
+              <h3>SchooInc</h3>
+              <p>Gestion scolaire en microservices GraphQL.</p>
+              <ul class="tags"><li>React</li><li>GraphQL</li><li>PostgreSQL</li></ul>
+            </article>
+            <article class="card">
+              <p class="year">2025 · à trois</p>
+              <h3>kubeTracker</h3>
+              <p>Application à six services déployée sur Kubernetes.</p>
+              <ul class="tags"><li>Kubernetes</li><li>MongoDB</li></ul>
+            </article>
+            <article class="card">
+              <p class="year">2025 · en binôme</p>
+              <h3>Student Recipe</h3>
+              <p>Appli Android de recettes, avec cache local.</p>
+              <ul class="tags"><li>Kotlin</li><li>Compose</li><li>Room</li></ul>
+            </article>
+            <article class="card">
+              <p class="year">2025 · en binôme</p>
+              <h3>VoteApp</h3>
+              <p>App de vote distribuée sur un cluster Docker Swarm.</p>
+              <ul class="tags"><li>Docker</li><li>Python</li><li>.NET</li><li>Redis</li></ul>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

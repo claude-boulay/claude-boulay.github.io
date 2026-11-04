@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.astro/
+cv/telephone.txt
+cv/CV-Claude-Boulay-complet.pdf

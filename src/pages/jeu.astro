@@ -1,0 +1,258 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource/ibm-plex-mono/400.css';
+
+const base = import.meta.env.BASE_URL;
+const legend = [
+  { kind: 'duck', label: 'Animaux', value: '+10' },
+  { kind: 'boat', label: 'Bateaux', value: '+20' },
+  { kind: 'pirate', label: 'Pirates', value: '+5 s' },
+  { kind: 'galleon', label: 'Galions rares', value: '+50' },
+  { kind: 'bottle', label: 'Déchets', value: '−15' },
+  { kind: 'tanker', label: 'Pétrolier', value: 'Danger' },
+];
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Le calmar · Claude Boulay</title>
+    <meta name="description" content="Mini-jeu : 30 secondes pour attirer le plus de choses possible sous l'eau." />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="game">
+      <canvas id="water" aria-label="La mer, où passent des animaux, des bateaux, des galions et des déchets."></canvas>
+
+      <div id="hud" class="hud" hidden>
+        <p><span>Score</span><strong id="score">0</strong></p>
+        <p><span>Temps</span><strong id="time">30</strong></p>
+        <p><span>Record</span><strong id="record">0</strong></p>
+      </div>
+
+      <a class="quit" href={base}>Retour au portfolio</a>
+
+      <section id="start" class="panel">
+        <img src={`${base}squid.png`} alt="" width="96" height="96" />
+        <h1>Le calmar a faim</h1>
+        <p>30 secondes pour attirer le plus de choses sous l’eau. Clique sur ce qui flotte, mais pas sur le pétrolier : tout se changerait en déchets !</p>
+        <ul class="legend">
+          {
+            legend.map((entry) => (
+              <li>
+                <canvas data-kind={entry.kind} width="140" height="100" />
+                <strong>{entry.value}</strong>
+                <span>{entry.label}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <button type="button" data-play>Jouer</button>
+      </section>
+
+      <section id="end" class="panel" aria-live="polite" hidden>
+        <img src={`${base}squid.png`} alt="" width="96" height="96" />
+        <h2>Temps écoulé</h2>
+        <p class="final" id="final">0</p>
+        <p id="verdict"></p>
+        <button type="button" data-play>Rejouer</button>
+      </section>
+    </main>
+
+    <script>
+      import { startGame } from '../game/squid-game';
+      startGame();
+    </script>
+
+    <style is:global>
+      :root {
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        overflow: hidden;
+        background: #0b162c;
+        color: #fff;
+        font: 400 1.0625rem/1.5 'Archivo Variable', system-ui, sans-serif;
+      }
+
+      .game {
+        position: fixed;
+        inset: 0;
+      }
+
+      #water {
+        display: block;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        touch-action: manipulation;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      .hud {
+        position: absolute;
+        top: 1rem;
+        left: 50%;
+        display: flex;
+        gap: clamp(1.25rem, 5vw, 3rem);
+        transform: translateX(-50%);
+        text-align: center;
+        pointer-events: none;
+      }
+
+      .hud p {
+        margin: 0;
+      }
+
+      .hud span {
+        display: block;
+        color: #5fc2ba;
+        font: 400 0.75rem/1.2 'IBM Plex Mono', monospace;
+      }
+
+      .hud strong {
+        display: block;
+        min-width: 2.5ch;
+        font-size: clamp(1.75rem, 5vw, 2.5rem);
+        font-weight: 800;
+        font-stretch: 112%;
+        line-height: 1.1;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .hud .low {
+        color: #ff8a7a;
+      }
+
+      .quit {
+        position: absolute;
+        right: 1rem;
+        bottom: 1rem;
+        padding: 0.25rem 0.5rem;
+        background: #0b162c;
+        color: #fff;
+        font: 400 0.75rem/1.4 'IBM Plex Mono', monospace;
+      }
+
+      .panel {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: min(100% - 2rem, 42rem);
+        max-height: calc(100% - 2rem);
+        overflow: auto;
+        padding: clamp(1.25rem, 4vw, 2rem);
+        transform: translate(-50%, -50%);
+        background: #0b162c;
+        border-top: 6px solid #5fc2ba;
+        text-align: center;
+      }
+
+      .panel img {
+        display: block;
+        width: 4.5rem;
+        height: auto;
+        margin: 0 auto 0.5rem;
+      }
+
+      .panel h1,
+      .panel h2 {
+        margin: 0;
+        font-size: clamp(1.75rem, 6vw, 2.5rem);
+        font-weight: 800;
+        font-stretch: 125%;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+      }
+
+      .panel > p {
+        margin: 0.75rem 0 0;
+      }
+
+      .final {
+        color: #5fc2ba;
+        font-size: 4rem;
+        font-weight: 800;
+        font-stretch: 125%;
+        line-height: 1;
+      }
+
+      .legend {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 0.5rem;
+        margin: 1.25rem 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .legend li {
+        padding: 0.5rem 0.25rem;
+        background: #1c2942;
+      }
+
+      .legend canvas {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .legend strong {
+        display: block;
+        color: #5fc2ba;
+        font-size: 1.125rem;
+        font-weight: 800;
+      }
+
+      .legend span {
+        display: block;
+        font: 400 0.6875rem/1.3 'IBM Plex Mono', monospace;
+      }
+
+      .panel button {
+        margin-top: 1.25rem;
+        padding: 0.75rem 2.5rem;
+        border: 0;
+        background: #5fc2ba;
+        color: #0b162c;
+        font-family: 'Archivo Variable', sans-serif;
+        font-size: 1.125rem;
+        font-weight: 800;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .panel button:hover {
+        background: #fff;
+      }
+
+      @media (max-width: 40rem) {
+        .legend {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      :focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 3px;
+      }
+    </style>
+  </body>
+</html>

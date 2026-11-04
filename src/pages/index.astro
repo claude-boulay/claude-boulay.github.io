@@ -1,0 +1,269 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/global.css';
+import { featured, others, profile, skills, timeline, tubconcept } from '../data/site';
+
+const title = `${profile.name} · Développeur full-stack (PHP, React, Python)`;
+const description =
+  'Développeur full-stack en alternance chez Tubconcept, dernière année de master à SUPINFO Tours : ERP marketplaces, PrestaShop, scraping Python et infra.';
+const home = new URL(import.meta.env.BASE_URL, Astro.site);
+const ogImage = new URL('og.png', home);
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  url: home,
+  image: ogImage,
+  jobTitle: 'Développeur full-stack',
+  email: `mailto:${profile.email}`,
+  sameAs: [profile.github, profile.linkedin].filter(Boolean),
+  worksFor: { '@type': 'Organization', name: 'Tubconcept' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'SUPINFO' },
+  knowsAbout: skills.flatMap((group) => group.items),
+};
+const [firstName, lastName] = profile.name.split(' ');
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={profile.name} />
+    <meta name="theme-color" content="#0b162c" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content={home} />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${profile.name}, développeur full-stack`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(person)} />
+    <link rel="canonical" href={home} />
+    <link rel="sitemap" href={`${import.meta.env.BASE_URL}sitemap.xml`} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip" href="#contenu">Aller au contenu</a>
+
+    <div class="hero">
+      <svg class="hero-lines" viewBox="0 0 1200 760" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+        <g class="pipes">
+          <path d="M1200 120H860q-30 0-30 30v180q0 30-30 30H0" />
+          <path d="M1200 280H950q-30 0-30 30v20q0 30-30 30H0" />
+          <path d="M1200 600H1010q-30 0-30-30V390q0-30-30-30H0" />
+        </g>
+        <g class="pulses">
+          <path pathLength="100" d="M1200 120H860q-30 0-30 30v180q0 30-30 30H0" />
+          <path pathLength="100" d="M1200 280H950q-30 0-30 30v20q0 30-30 30H0" />
+          <path pathLength="100" d="M1200 600H1010q-30 0-30-30V390q0-30-30-30H0" />
+        </g>
+      </svg>
+
+      <header class="wrap topbar">
+        <a href="#top" class="mono brand" id="top">{profile.role}</a>
+        <nav aria-label="Navigation principale">
+          <a href="#tubconcept">Expérience</a>
+          <a href="#projets">Projets</a>
+          <a href="#parcours">Parcours</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <div class="wrap hero-body">
+        <h1>{firstName}<br />{lastName}</h1>
+        <p class="lead">{profile.lead}</p>
+        <ul class="facts mono">
+          {profile.facts.map((fact) => <li>{fact}</li>)}
+        </ul>
+      </div>
+
+      <svg class="hero-squid" viewBox="0 0 1200 760" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+        <a class="squid" href={`${import.meta.env.BASE_URL}${profile.squidLink}`} tabindex="-1">
+          <image href={`${import.meta.env.BASE_URL}squid.png`} />
+        </a>
+      </svg>
+    </div>
+
+    <script>
+      // Le SVG suit la taille de l'écran : on compense pour garder un calmar de 50 px
+      const svg = document.querySelector<SVGSVGElement>('.hero-squid');
+      const image = svg?.querySelector('image');
+
+      function fitSquid() {
+        const zoom = svg?.getScreenCTM()?.a;
+        if (!zoom || !image) return;
+        const size = 50 / zoom;
+        image.setAttribute('width', String(size));
+        image.setAttribute('height', String(size));
+        image.setAttribute('x', String(-size / 2));
+        image.setAttribute('y', String(-size / 2));
+      }
+
+      fitSquid();
+      window.addEventListener('resize', fitSquid);
+    </script>
+
+    <main id="contenu">
+      <section class="wrap section" id="tubconcept">
+        <div class="section-head">
+          <h2>Chez Tubconcept</h2>
+          <p class="mono">{tubconcept.meta}</p>
+        </div>
+        <p class="intro">{tubconcept.intro}</p>
+
+        <div class="erp">
+          <div>
+            <h3>{tubconcept.erp.title}</h3>
+            <p>{tubconcept.erp.text}</p>
+            <ul class="stack mono">
+              {tubconcept.erp.stack.map((tech) => <li>{tech}</li>)}
+            </ul>
+          </div>
+          <svg class="flow" viewBox="0 0 440 270" role="img" aria-label="Les commandes d'Amazon, ManoMano, Castorama et Leroy Merlin arrivent dans l'ERP, où elles sont gérées.">
+            <g class="flow-lines">
+              <path d="M112 30h34q16 0 16 16v73q0 16 16 16h34" />
+              <path d="M112 100h34q16 0 16 16v3q0 16 16 16h34" />
+              <path d="M112 170h34q16 0 16-16v-3q0-16 16-16h34" />
+              <path d="M112 240h34q16 0 16-16v-73q0-16 16-16h34" />
+              <path d="M300 135h34" />
+            </g>
+            <g class="flow-nodes">
+              <rect x="1" y="12" width="111" height="36" />
+              <rect x="1" y="82" width="111" height="36" />
+              <rect x="1" y="152" width="111" height="36" />
+              <rect x="1" y="222" width="111" height="36" />
+              <rect class="flow-main" x="212" y="102" width="88" height="66" />
+              <rect x="334" y="117" width="105" height="36" />
+            </g>
+            <g class="flow-text">
+              <text x="56.5" y="35">Amazon</text>
+              <text x="56.5" y="105">ManoMano</text>
+              <text x="56.5" y="175">Castorama</text>
+              <text x="56.5" y="245">Leroy Merlin</text>
+              <text class="flow-main-text" x="256" y="142">ERP</text>
+              <text x="386.5" y="140">Commandes</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="duo">
+          {
+            tubconcept.others.map((item) => (
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+                <ul class="stack mono">
+                  {item.stack.map((tech) => <li>{tech}</li>)}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="wrap section" id="projets">
+        <div class="section-head">
+          <h2>Projets</h2>
+          <p class="mono">Sélection sur GitHub</p>
+        </div>
+
+        <ol class="featured">
+          {
+            featured.map((project) => (
+              <li>
+                <div class="project-side">
+                  <p class="mono">{project.year} · {project.team}</p>
+                  <h3><a href={project.url}>{project.name}<span aria-hidden="true">&nbsp;↗</span></a></h3>
+                </div>
+                <div>
+                  <p class="project-text">{project.text}</p>
+                  <ul class="points">
+                    {project.points.map((point) => <li>{point}</li>)}
+                  </ul>
+                  <ul class="stack mono">
+                    {project.stack.map((tech) => <li>{tech}</li>)}
+                  </ul>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <h3 class="others-title">Et aussi</h3>
+        <ul class="others">
+          {
+            others.map((project) => (
+              <li>
+                <a href={project.url}>
+                  <span class="mono">{project.year}</span>
+                  <strong>{project.name}</strong>
+                  <span>{project.text}</span>
+                  <span class="mono">{project.stack}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="wrap section" id="competences">
+        <div class="section-head">
+          <h2>Compétences</h2>
+        </div>
+        <div class="skills">
+          {
+            skills.map((group) => (
+              <div>
+                <h3 class="mono">{group.title}</h3>
+                <ul>
+                  {group.items.map((item) => <li>{item}</li>)}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="wrap section" id="parcours">
+        <div class="section-head">
+          <h2>Parcours</h2>
+        </div>
+        <ol class="timeline">
+          {
+            timeline.map((step) => (
+              <li>
+                <p class="mono">{step.when}</p>
+                <div>
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+    </main>
+
+    <footer class="contact" id="contact">
+      <div class="wrap">
+        <h2>Discutons&nbsp;!</h2>
+        <p class="search">{profile.search}</p>
+        <a class="mail" href={`mailto:${profile.email}`}>{profile.email}</a>
+        <ul class="links mono">
+          <li><a href={`${import.meta.env.BASE_URL}CV-Claude-Boulay.pdf`}>CV (PDF)</a></li>
+          <li><a href={profile.github} rel="me">GitHub</a></li>
+          {profile.linkedin && <li><a href={profile.linkedin} rel="me">LinkedIn</a></li>}
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>
