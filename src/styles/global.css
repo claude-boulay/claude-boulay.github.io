@@ -81,7 +81,7 @@ a {
   position: absolute;
   left: 1rem;
   top: -4rem;
-  z-index: 2;
+  z-index: 11;
   padding: 0.5rem 1rem;
   background: var(--surface);
   color: var(--ink);
@@ -99,11 +99,13 @@ a {
   display: flex;
   flex-direction: column;
   min-height: min(100svh, 56rem);
+  padding-top: 3.5rem;
   background: var(--hero);
   color: var(--on-hero);
 }
 
-.hero :focus-visible {
+.hero :focus-visible,
+.topbar :focus-visible {
   outline-color: var(--on-hero);
 }
 
@@ -201,12 +203,20 @@ a {
 }
 
 .topbar {
-  position: relative;
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10;
+  background: var(--hero);
+  border-bottom: 1px solid rgb(95 194 186 / 0.35);
+  color: var(--on-hero);
+}
+
+.topbar .wrap {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  gap: 0.5rem 2rem;
-  padding-block: 1.5rem;
+  gap: 2rem;
+  padding-block: 0.875rem;
 }
 
 .brand {
@@ -215,8 +225,8 @@ a {
 
 .topbar nav {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1.5rem;
+  gap: 1.5rem;
+  white-space: nowrap;
 }
 
 .topbar nav a {
@@ -232,6 +242,7 @@ a {
 .hero-body {
   position: relative;
   margin-top: auto;
+  pointer-events: none; /* laisse le calmar cliquable derrière le texte */
   padding-block: 4rem 3rem;
 }
 
@@ -263,7 +274,6 @@ h1 {
 
 .section {
   padding-block: clamp(4rem, 9vw, 7rem) 0;
-  scroll-margin-top: 1rem;
 }
 
 .section-head {
@@ -527,6 +537,7 @@ h3 {
 /* Contact */
 
 .contact {
+  scroll-margin-top: 2rem;
   margin-top: clamp(4rem, 9vw, 7rem);
   padding-block: clamp(3rem, 7vw, 5rem);
   background: var(--hero);
@@ -591,6 +602,17 @@ h3 {
 @media (max-width: 40rem) {
   .squid {
     --squid-end: 14%;
+  }
+
+  /* Tous les liens tiennent sur une ligne qui défile */
+  .topbar .brand {
+    display: none;
+  }
+
+  .topbar nav {
+    gap: 1.125rem;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
 
   .duo {
